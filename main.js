@@ -1,20 +1,107 @@
-alert("Bienvenido a HgBiomedics, Por favor inicie sesión")
+let login=true
+identificar=true
 let intentos=1
 let restantes=3
-let identificar=true
+let iter=0
+let total=0;
+const IVA=1.16
+let lista1=[]
+let producto1 = new Catalogo(1,"Cámara 1488HD Stryker",150000,4)
+let producto2 = new Catalogo(2,"Cámara IM8000 TrueHD Conmed",100000,2)
+let producto3 = new Catalogo(3,"MONITOR SIGNOS VITALES MOD. UMEC10 MINDRAY",20000,10)
+let producto4 = new Catalogo(4,"Monitor LED 4K Sony Medical",15000,4)
+
 do{
+let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar sesión. 2.Servicios")
+    if(option==="1"){
+        userlog()
+
+        if(option==="1" && login===false){
+            alert("Ya has iniciado sesión, por favor selecciona otra opción")
+            option=0
+        }
+        if(restantes===0){
+            alert("Ya has excedido el número de intentos permitidos, vuelve a intentarlo después")
+            console.error("Error al ingresar, no hay más intentos")
+            break;
+        }
+    }
+    if(option==="2"){
+            let lista=[producto1, producto2, producto3, producto4]
+            alert("Bienvenido a nuestro cátalogo")
+            let ir=true;
+            while(ir===true){
+            let menuser=prompt("Por favor seleccione la opción deseada. 1. Comprar productos. 2. Buscar productos. 3. Agregar productos a la lista. 4.Ver mi carrito")
+            if(menuser==="1"){
+                let add=true;
+                console.table(lista)
+                while(add===true){
+                    let id=parseInt(prompt("Agregue al carrito su item escribiendo el ID del producto"))
+                    id=id-1;
+                    servicio1(lista, id)
+                    console.log(total)
+                    let add=confirm("¿Desea agregar otro al carrito?")
+                    if(add===true){
+                        identificar=true
+                    }else if(add===false){
+                        
+                        ir=false;
+                        break;
+                    }
+                }
+            }
+            /* if(menuser==="2"){
+
+            }
+            if(menuser==="3"){
+
+            } */
+            if(menuser==="4"){
+            console.table(lista1)
+            let comprar=confirm("Quieres proceder a la compra")
+            if(comprar===true){
+                if(lista1!=""){
+                    alert("El precio a pagar es de: $"+ total + " MXN")
+                    alert("Gracias por su compra")
+                    continue
+                }else{
+                    alert("No hay nada en su carrito")
+                    
+                }
+                
+            } else{
+                let cancelar=confirm("¿Quiere cancelar la compra?")
+                if(cancelar===true){
+                    Alert("Que tenga un lindo día!")
+                }
+            } 
+            }
+        }
+    }else if(option!="1" || option!="2" ||option===null){
+        alert("La opción que requieres no existe. Introduzca un número válido")
+        identificar=true
+    }
+    let cancelar=confirm("¿Desea salir?") 
+    if(cancelar===true){
+        
+            alert("Que tenga un lindo día!")
+            identificar=false;
+            break
+    }
+}while(identificar===true)
+
+
+function userlog(){
     let usuario= prompt("ingresa tu usuario")
     let pass= prompt("ingresa tu contraseña, solo tienes: " + restantes + " intentos")
-    if(usuario===null){
-        break
-    }
-    if(pass===null){
-        break
+    if(usuario===null || pass===null){
+        
     }
     if(usuario==="Hakin" && intentos <=3 && pass==="12345")
     {
         alert("bienvenido " +usuario)
-        identificar=false
+        login=false
+        return new Function('return login;')
     }else{
         alert("No se reconoce el usuario: " + usuario + ", O la contraseña introducida no es la correcta")
         intentos++
@@ -22,89 +109,48 @@ do{
         if(intentos>3){
             alert("Ya no es posible ingresar, supero los 3 intentos ")
             console.error("no hay mas intentos")
-            break
+            
         }
     }
-} while(identificar)
- 
-let iva=1.16
+}
+
 function Catalogo(ID,modelo,importe,stock){
     this.ID=ID
     this.modelo=modelo
     this.importe=importe
     this.stock=stock
-    this.importeCiva=function(){
-        return this.importe*iva
-    }
-    
-}
-const producto1 = new Catalogo(1,"Cámara 1488HD Stryker",150000,4)
-const producto2 = new Catalogo(2,"Cámara IM8000 TrueHD Conmed",100000,2)
-const producto3 = new Catalogo(3,"MONITOR SIGNOS VITALES MOD. UMEC10 MINDRAY",20000,10)
-const producto4 = new Catalogo(4,"Monitor LED 4K Sony Medical",15000,4)
+   
 
-let servicio= prompt("¿Qué servicio requiere? Si desea adquirir algún equipo, escriba 1. Si requiere servicio de mantenimiento, escriba 2. Si necesita salir, presione cancelar")
-servicio = parseInt(servicio)
-if(servicio===1){
-    let total=0;
-    let iterar=true;
-    while(iterar===true){
-        const prod=prompt("Estos son nuestros productos en venta, ¿Desea agregar alguno al carrito? Escriba el ID en el cuadro de busqueda " + producto1.ID  + " ID " + producto1.modelo+ " $"+ producto1.importeCiva()+"MXN --- "+ producto2.ID  + " ID " + producto2.modelo+ " $"+ producto2.importeCiva()+"MXN --- "+ producto3.ID  + " ID " + producto3.modelo+ " $"+ producto3.importeCiva()+"MXN --- "+ producto4.ID  + " ID " + producto4.modelo+ " $"+ producto4.importeCiva()+"MXN --- ")
-        switch(prod){
-            case "1":
-                alert("Tenemos en stock: "+producto1.stock)
-                confirme=confirm("¿Agregar al carrito?")
-                if(confirme===true && producto1.stock!=0){
-                    producto1.stock=parseInt(producto1.stock)-1;
-                    const precio=parseInt(producto1.importeCiva())
-                    total =total+precio
-                } else { break;}
-            break;
-            case "2":
-                alert("Tenemos en stock: "+producto2.stock)
-                confirme=confirm("¿Agregar al carrito?")
-                if(confirme===true && producto2.stock!=0){
-                    producto2.stock=parseInt(producto2.stock)-1;
-                    const precio=parseInt(producto2.importeCiva())
-                    total=total+precio
-                } else { break;}
-            break;
-            case "3":
-                alert("Tenemos en stock: "+producto3.stock)
-                confirme=confirm("¿Agregar al carrito?")
-                if(confirme===true && producto3.stock!=0){
-                    producto3.stock=parseInt(producto3.stock)-1;
-                    const precio=parseInt(producto3.importeCiva())
-                    total =total+precio
-                } else { break;}
-            break;
-            case "4":
-                alert("Tenemos en stock: "+producto4.stock)
-                confirme=confirm("¿Agregar al carrito?")
-                if(confirme===true && producto4.stock!=0){
-                    producto4.stock=parseInt(producto4.stock)-1;
-                    const precio=parseInt(producto4.importeCiva())
-                    total =total+precio
-                } else { break;}
-                break;
-                                
-            default: 
-            alert("Ese producto no está en nuestro cátalogo")
-            break;
-        }
-        iterar=confirm("¿Desea agregar otro objeto a su carrito?")
-        
-        
-    }
-    let comprar=confirm("Quieres proceder a la compra")
-    if(comprar===true){
-        alert("El precio a pagar es de: $"+ total + " MXN")
-        alert("Gracias por su compra")
-        } else{
-            let cancelar=confirm("¿Quiere cancelar la compra?")
-            if(cancelar===true){
-                Alert("Que tenga un lindo día!")
-            }
-        } 
-    
 }
+
+function servicio1(lista,id){
+    console.table(lista[id])
+    lista[id].stock=parseInt(lista[id].stock)
+    console.log(lista[id].stock)
+    confirme=confirm("¿Agregar al carrito?")
+    if(lista[id].stock>0 && confirme===true){
+        lista[id].stock=parseInt(lista[id].stock)-1
+        let importecIVA=parseFloat(lista[id].importe)
+        console.log(importecIVA)
+        let resultado=(a,b)=>{
+            return a*b
+        }
+        let precio=resultado(importecIVA,IVA)
+        console.log(precio)
+        total=total+precio
+        carrito(id,lista)
+        iter=iter+1;
+        return total, lista1
+    }else if(lista[id].stock===0){
+        alert("No tenemos más en stock, favor de intentarlo de nuevo más tarde")
+    }
+    if(confirme===false){
+        return confirme
+    }
+}
+function carrito(id,lista){
+    let carr= new Catalogo(lista[id].ID,lista[id].modelo,lista[id].importe,lista[id].stock)
+        lista1.push(carr)
+        return lista1
+}
+
