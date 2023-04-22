@@ -12,7 +12,7 @@ let producto3 = new Catalogo(3,"MONITOR SIGNOS VITALES MOD. UMEC10 MINDRAY",2000
 let producto4 = new Catalogo(4,"Monitor LED 4K Sony Medical",15000,4)
 
 do{
-let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar sesión. 2.Servicios")
+let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar sesión. 2.Servicios (nota: el catalogo se ve en el console log)")
     if(option==="1"){
         userlog()
 
@@ -31,7 +31,7 @@ let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar 
             alert("Bienvenido a nuestro cátalogo")
             let ir=true;
             while(ir===true){
-            let menuser=prompt("Por favor seleccione la opción deseada. 1. Comprar productos. 2. Buscar productos. 3. Agregar productos a la lista. 4.Ver mi carrito")
+            let menuser=prompt("Por favor seleccione la opción deseada. 1. Comprar productos. 2. Buscar productos. 3. Agregar productos a la lista que no estén en stock. 4.Ver mi carrito")
             if(menuser==="1"){
                 let add=true;
                 console.table(lista)
@@ -50,12 +50,12 @@ let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar 
                     }
                 }
             }
-            /* if(menuser==="2"){
+            if(menuser==="2"){
 
             }
             if(menuser==="3"){
 
-            } */
+            }
             if(menuser==="4"){
             console.table(lista1)
             let comprar=confirm("Quieres proceder a la compra")
