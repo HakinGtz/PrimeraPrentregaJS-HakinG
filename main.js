@@ -6,11 +6,11 @@ let iter=0
 let total=0;
 const IVA=1.16
 let lista1=[]
-let producto1 = new Catalogo(1,"Cámara 1488HD Stryker",150000,4)
-let producto2 = new Catalogo(2,"Cámara IM8000 TrueHD Conmed",100000,2)
+let producto1 = new Catalogo(1,"camara 1488HD Stryker",150000,4)
+let producto2 = new Catalogo(2,"camara IM8000 TrueHD Conmed",100000,2)
 let producto3 = new Catalogo(3,"MONITOR SIGNOS VITALES MOD. UMEC10 MINDRAY",20000,10)
 let producto4 = new Catalogo(4,"Monitor LED 4K Sony Medical",15000,4)
-
+let lista=[producto1, producto2, producto3, producto4]
 do{
 let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar sesión. 2.Servicios (nota: el catalogo se ve en el console log)")
     if(option==="1"){
@@ -27,7 +27,7 @@ let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar 
         }
     }
     if(option==="2"){
-            let lista=[producto1, producto2, producto3, producto4]
+            
             alert("Bienvenido a nuestro cátalogo")
             let ir=true;
             while(ir===true){
@@ -51,10 +51,11 @@ let option=prompt("Bienvenido a HGBiomedics. Seleccione una opción: 1. Iniciar 
                 }
             }
             if(menuser==="2"){
-
+                filtrarProductos()
+                alert("El producto sí está en nuestro inventario")
             }
             if(menuser==="3"){
-
+                agregarProducto()
             }
             if(menuser==="4"){
             console.table(lista1)
@@ -148,6 +149,39 @@ function servicio1(lista,id){
         return confirme
     }
 }
+function filtrarProductos(){
+    let palabraClave = prompt("Ingresa el producto que deseas buscar").trim().toUpperCase()
+    let resultado = lista.filter((catalogo)=> catalogo.modelo.toUpperCase().includes(palabraClave))
+ 
+    if(resultado.length > 0){
+       console.table(resultado)
+    }else{
+       alert("No se encontro ninguna coincidencia con: ",palabraClave)
+    }
+   }
+   function agregarProducto(){
+    let ID = parseInt(prompt("Ingresa el ID del producto").trim());
+    let modelo = prompt("Ingresa el nombre del producto: ").trim();
+    let importe = parseFloat(prompt("Ingresa el precio del producto: "));
+    let stock = parseInt(prompt("Ingresa el stock del producto: "));
+ 
+    if (isNaN(ID) || isNaN(importe) || isNaN(stock)  ||  modelo === ""){
+       alert("Por favor ingresa valores válidos.");
+       return; //SI no pongo que retorne, me guarda el producto como NaN
+    }
+    let catalogo = new Catalogo(ID, modelo, importe, stock);
+    /*
+    Si los valores son válidos, creamos un objeto producto
+    con los valores ingresados
+    y se verifica si ese producto ya existe en la lista utilizando el método some.
+    */
+   if (lista.some((p) => p.modelo===catalogo.modelo)){
+    alert("El producto ya existe en la lista.");
+    return;
+   } 
+   lista.push(catalogo);
+   console.table(lista);
+   }
 function carrito(id,lista){
     let carr= new Catalogo(lista[id].ID,lista[id].modelo,lista[id].importe,lista[id].stock)
         lista1.push(carr)
